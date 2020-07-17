@@ -15,12 +15,16 @@ from pptx.util import Inches
 chromedriver_path = "./chromedriver"
 doc_dir_path = "./doc"
 ppt_dir_path = "./ppt"
-# url = 'https://wk.baidu.com/view/062edabeb6360b4c2e3f5727a5e9856a5712262d?pcf=2&bfetype=new'  # doc_img
-# url = "https://wenku.baidu.com/view/3de365cc6aec0975f46527d3240c844769eaa0aa.html?fr=search" #ppt
+# url = "https://wenku.baidu.com/view/4410199cb0717fd5370cdc2e.html?fr=search"# doc_txt p
 # url = "https://wenku.baidu.com/view/4d18916f7c21af45b307e87101f69e314332fa36.html" # doc_txt span
-# url = "https://wenku.baidu.com/view/18a8bc08094e767f5acfa1c7aa00b52acec79c55"#pdf
+# url = "https://wenku.baidu.com/view/dea519c7e53a580216fcfefa.html?fr=search" # doc_txt span br
+# url = 'https://wk.baidu.com/view/062edabeb6360b4c2e3f5727a5e9856a5712262d?pcf=2&bfetype=new' # doc_img
 # url = "https://wenku.baidu.com/view/2af6de34a7e9856a561252d380eb6294dd88228d"# vip限定doc
-url = "https://wenku.baidu.com/view/dea519c7e53a580216fcfefa.html?fr=search"
+# url = "https://wenku.baidu.com/view/3de365cc6aec0975f46527d3240c844769eaa0aa.html?fr=search" #ppt
+# url = "https://wenku.baidu.com/view/18a8bc08094e767f5acfa1c7aa00b52acec79c55"#pdf
+# url = "https://wenku.baidu.com/view/bbe27bf21b5f312b3169a45177232f60dccce772"
+url = "https://wenku.baidu.com/view/5cb11d096e1aff00bed5b9f3f90f76c660374c24.html?fr=search"
+
 
 
 class DownloadImg():
@@ -64,9 +68,11 @@ class StartChrome():
 
     def judge_doc(self, contents):
         # 判断文档类别
-        if contents.xpath("./span/text()").extract():
+        p_list = ''.join(contents.xpath("./text()").extract())
+        span_list = ''.join(contents.xpath("./span/text()").extract())
+        if len(span_list)>len(p_list):
             xpath_content_one = "./br/text()|./span/text()"
-        elif contents.xpath("./text()").extract():
+        elif len(span_list)<len(p_list):
             xpath_content_one = "./br/text()|./text()"
         else:
             xpath_content_one = "./span/img/@src"
@@ -122,28 +128,50 @@ class StartChrome():
         xpath_title = "//div[@class='doc-title']/text()"
         title = "".join(sel.xpath(xpath_title).extract()).strip()
         # 获取内容
-        xpath_content = "//div[@class='content singlePage wk-container']/div/p/img/@data-loading-src|//div[@class='content singlePage wk-container']/div/p/img/@data-src"
-        # xpath_content = "//div[@class='content singlePage wk-container']/div/p/img[@data-loading-src]"
-
-        # contents = sel.xpath(xpath_content)
-        contents = set(sel.xpath(xpath_content).extract())
+        xpath_content_p = "//div[@class='content singlePage wk-container']/div/p/img"
+        xpath_content_p_list = sel.xpath(xpath_content_p)
+        xpath_content_p_url_list=[]
+        for imgs in xpath_content_p_list:
+            xpath_content = "./@data-loading-src|./@data-src|./@src"
+            contents_list = imgs.xpath(xpath_content).extract()
+            xpath_content_p_url_list.append(contents_list)
 
         img_path_list = []  # 保存下载的图片路径，方便后续图片插入ppt和删除图片
         # 下载图片到指定目录
-        for index, content_img_one in enumerate(contents):
-            # print(content_img_one)
-            one_img_saved_path = os.path.join(ppt_dir_path, "{}.jpg".format(index))
-            self.download_img.download_one_img(content_img_one, one_img_saved_path)
-            img_path_list.append(one_img_saved_path)
-        # 获取下载的第一张图片
-        img_shape_path = img_path_list[0]
+        for index, content_img_p in enumerate(xpath_content_p_url_list):
+            p_img_path_list=[]
+            for index_1,img_one in enumerate(content_img_p):
+                one_img_saved_path = os.path.join(ppt_dir_path, "{}_{}.jpg".format(index,index_1))
+                self.download_img.download_one_img(img_one, one_img_saved_path)
+                p_img_path_list.append(one_img_saved_path)
+
+            p_img_max_shape = 0
+            for index,p_img_path in enumerate(p_img_path_list):
+                img_shape = cv2.imread(p_img_path).shape
+                if p_img_max_shape<img_shape[0]:
+                    p_img_max_shape = img_shape[0]
+                    index_max_img = index
+            img_path_list.append(p_img_path_list[index_max_img])
+
+
+        print(img_path_list)
+        # 获取下载的图片中最大的图片的尺寸
+        img_shape_max=[0,0]
+        for img_path_one in img_path_list:
+            img_path_one_shape = cv2.imread(img_path_one).shape
+            if img_path_one_shape[0]>img_shape_max[0]:
+                img_shape_max = img_path_one_shape
+        # 把图片统一缩放最大的尺寸
+        for img_path_one in img_path_list:
+            cv2.imwrite(img_path_one,cv2.resize(cv2.imread(img_path_one),(img_shape_max[1],img_shape_max[0])))
+        # img_shape_path = img_path_list[0]
         # 获得图片的尺寸
-        img_shape = cv2.imread(img_shape_path).shape
+        # img_shape = cv2.imread(img_shape_path).shape
         # 把像素转换为ppt中的长度单位emu,默认dpi是720
         # 1厘米=28.346像素=360000
         # 1像素 = 12700emu
-        prs.slide_width = img_shape[1] * 12700  # 换算单位
-        prs.slide_height = img_shape[0] * 12700
+        prs.slide_width = img_shape_max[1] * 12700  # 换算单位
+        prs.slide_height = img_shape_max[0] * 12700
 
         for img_path_one in img_path_list:
             left = Inches(0)
@@ -153,7 +181,13 @@ class StartChrome():
             slide = prs.slides.add_slide(slide_layout)
             pic = slide.shapes.add_picture(img_path_one, left, right, )
             print("insert {} into pptx success!".format(img_path_one))
-            os.remove(img_path_one)
+            # os.remove(img_path_one)
+
+        for root,dirs,files in os.walk(ppt_dir_path):
+            for file in files:
+                if file.endswith(".jpg"):
+                    img_path = os.path.join(root,file)
+                    os.remove(img_path)
 
         prs.save(os.path.join(ppt_dir_path, title + ".pptx"))
         print("download {} success!".format(os.path.join(ppt_dir_path, title + ".pptx")))

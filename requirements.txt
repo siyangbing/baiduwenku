@@ -3,3 +3,5 @@ my_fake_useragent
 docx
 python-opencv
 pptx
+selenium
+scrapy
