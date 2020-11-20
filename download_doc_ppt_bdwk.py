@@ -24,7 +24,7 @@ ppt_dir_path = "./ppt"
 # url = "https://wenku.baidu.com/view/18a8bc08094e767f5acfa1c7aa00b52acec79c55"#pdf
 # url = "https://wenku.baidu.com/view/bbe27bf21b5f312b3169a45177232f60dccce772"
 # url = "https://wenku.baidu.com/view/5cb11d096e1aff00bed5b9f3f90f76c660374c24.html?fr=search"
-url = "https://wenku.baidu.com/view/71f9818fef06eff9aef8941ea76e58fafab045a6.html"
+url = "https://wenku.baidu.com/view/dbf95c60acf8941ea76e58fafab069dc512247c9.html?fr=search-income7"
 
 
 class DownloadImg():
@@ -54,7 +54,7 @@ class StartChrome():
         options = webdriver.ChromeOptions()
         options.add_experimental_option("mobileEmulation", mobile_emulation)
         self.brower = webdriver.Chrome(executable_path=chromedriver_path, desired_capabilities=capabilities,
-                                       chrome_options=options)
+                                       options=options)
         # 启动浏览器，打开需要下载的网页
         self.brower.get(url)
         self.download_img = DownloadImg()
