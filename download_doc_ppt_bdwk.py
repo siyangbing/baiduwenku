@@ -24,8 +24,9 @@ ppt_dir_path = "./ppt"
 # url = "https://wenku.baidu.com/view/18a8bc08094e767f5acfa1c7aa00b52acec79c55"#pdf
 # url = "https://wenku.baidu.com/view/bbe27bf21b5f312b3169a45177232f60dccce772"
 # url = "https://wenku.baidu.com/view/5cb11d096e1aff00bed5b9f3f90f76c660374c24.html?fr=search"
-url = "https://wenku.baidu.com/view/71f9818fef06eff9aef8941ea76e58fafab045a6.html"
-
+# url = "https://wenku.baidu.com/view/71f9818fef06eff9aef8941ea76e58fafab045a6.html"
+# url = "https://wenku.baidu.com/view/ffc6b32a68eae009581b6bd97f1922791788be69.html"
+url = "https://wenku.baidu.com/view/d4d2e1e3122de2bd960590c69ec3d5bbfd0adaa6.html"
 
 class DownloadImg():
     def __init__(self):
@@ -70,10 +71,14 @@ class StartChrome():
         # 判断文档类别
         p_list = ''.join(contents.xpath("./text()").extract())
         span_list = ''.join(contents.xpath("./span/text()").extract())
-        if len(span_list)>len(p_list):
-            xpath_content_one = "./br/text()|./span/text()"
-        elif len(span_list)<len(p_list):
-            xpath_content_one = "./br/text()|./text()"
+        # # if span_list
+        # if len(span_list)>len(p_list):
+        #     xpath_content_one = "./br/text()|./span/text()|./text()"
+        # elif len(span_list)<len(p_list):
+        #     # xpath_content_one = "./br/text()|./text()"
+        #     xpath_content_one = "./br/text()|./span/text()|./text()"
+        if len(span_list)!=len(p_list):
+            xpath_content_one = "./br/text()|./span/text()|./text()"
         else:
             xpath_content_one = "./span/img/@src"
         return xpath_content_one

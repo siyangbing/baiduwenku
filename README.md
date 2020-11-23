@@ -13,9 +13,9 @@
 ## 环境安装
 #### pip install requests
 #### pip install my_fake_useragent
-#### pip install docx
+#### pip install python-docx
 #### pip install python-opencv
-#### pip install pptx
+#### pip install python-pptx
 #### pip install selenium
 #### pip install scrapy
 ### 注意，本项目使用的是chromedriver控制chrome进行下载的，chromedriver的版本和chrome需要匹配，下载好的chrome放置于当前脚本同级目录．
