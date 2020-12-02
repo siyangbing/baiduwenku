@@ -12,7 +12,11 @@ import cv2
 from pptx import Presentation
 from pptx.util import Inches
 
-chromedriver_path = "./chromedriver_ubuntu"
+#dows是的chromedriver
+chromedriver_path = "./chromedriver.exe"
+#用ubuntu的chromedriver
+# chromedriver_path = "./chromedriver"
+
 doc_dir_path = "./doc"
 ppt_dir_path = "./ppt"
 # url = "https://wenku.baidu.com/view/4410199cb0717fd5370cdc2e.html?fr=search"# doc_txt p

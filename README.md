@@ -18,10 +18,15 @@
 #### pip install python-pptx
 #### pip install selenium
 #### pip install scrapy
-#### 查看自己的chrome浏览器版本，然后到chromedriver下载地址：http://npm.taobao.org/mirrors/chromedriver/ 这个地址下载对应版本的chromedriver,比如你的浏览器版本是87.0.4280，你就可以找到87.0.4280.20/这个链接，如果你是windows版本然后选择chromedriver_win32.zip进行下载解压。千万不要下载LASEST——RELEASE87.0.4280这个链接，这个链接没有用，之前有小伙伴走过弯路的，注意一下哈。
-#### 本项目使用的是chromedriver控制chrome浏览器进行数据爬取的的，chromedriver的版本和chrome需要匹配，下载好的chrome放置于当前脚本同级目录，我上传的ubuntu的特定版本，windows 系统需要根据chrome版本自行下载替换。
-#### windows用户下载下来的文件解压后名为chromedriver.exe, 需要把chromedriver_path = "./chromedriver_ubuntu" 改为chromedriver_path = "./chromedriver.exe",别忘了加.exe
+
+### 本项目使用的是chromedriver控制chrome浏览器进行数据爬取的的，chromedriver的版本和chrome需要匹配
+### Windows用看这里
+#### 1. 如果你的chrome浏览器版本恰好是87.0.4280，那么恭喜你，你可以直接看使用方式了，因为我下载的chromedriver也是这个版本
+#### 2. 如果不是，你需要查看自己的chrome浏览器版本，然后到chromedriver下载地址：http://npm.taobao.org/mirrors/chromedriver/ 这个地址下载对应版本的chromedriver,比如你的浏览器版本是87.0.4280，你就可以找到87.0.4280.20/这个链接，如果你是windows版本然后选择chromedriver_win32.zip进行下载解压。千万不要下载LASEST——RELEASE87.0.4280这个链接，这个链接没有用，之前有小伙伴走过弯路的，注意一下哈。
+#### 3. 用解压好的chromedriver.exe替换原有文件，然后跳到使用方式
+### ubuntu用户看这里
+#### 讲道理，你已经用ubuntu了，那位就默认你是大神，你只要根据chrome的版本下载对应的chromdriver(linux系统的)，然后把chromedriver的路径改称你下载解压的文件路径就好了，然后跳到使用方式。哈哈哈，我这里就偷懒不讲武德啦
 ## 使用方式：
-#### 把代码中的url改为你想要下载的链接地址，脚本会自动文档判断类型，并把在当前目录新建文件夹并把文件下载到当前目录．
+#### #### 把代码中的url改为你想要下载的链接地址，脚本会自动文档判断类型，并把在当前目录新建文件夹并把文件下载到当前目录．
 ### 如果有需要的小伙伴需要支持可以加我QQ:2240984380,或者提isuues, 我会全力支持的！
 ## 如果在使用过程中遇到问题，或者有好的建议，可以在issue中提出来，我每天都会回复的，代码粗糙，大家谅解！如果好用的话就给个star
