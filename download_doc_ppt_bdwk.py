@@ -101,7 +101,7 @@ class StartChrome():
         click_count = 0
         while True:
             # 如果到了最后一页就跳出循环
-            if self.brower.find_elements_by_xpath("//div[@class='pagerwg-loadSucc hide']"):
+            if self.brower.find_elements_by_xpath("//div[@class='pagerwg-loadSucc hide']") or self.brower.find_elements_by_xpath("//div[@class='pagerwg-button' and @style='display: none;']"):
                 break
             # 点击加载更多
             xpath_loading_more_button = "//span[@class='pagerwg-arrow-lower']"
