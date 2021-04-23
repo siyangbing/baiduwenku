@@ -13,9 +13,9 @@ from pptx import Presentation
 from pptx.util import Inches
 
 #dows是的chromedriver
-chromedriver_path = "./chromedriver.exe"
+# chromedriver_path = "./chromedriver.exe"
 #用ubuntu的chromedriver
-# chromedriver_path = "./chromedriver"
+chromedriver_path = "./chromedriver"
 
 doc_dir_path = "./doc"
 ppt_dir_path = "./ppt"
@@ -30,7 +30,7 @@ ppt_dir_path = "./ppt"
 # url = "https://wenku.baidu.com/view/5cb11d096e1aff00bed5b9f3f90f76c660374c24.html?fr=search"
 # url = "https://wenku.baidu.com/view/71f9818fef06eff9aef8941ea76e58fafab045a6.html"
 # url = "https://wenku.baidu.com/view/ffc6b32a68eae009581b6bd97f1922791788be69.html"
-url = "https://wenku.baidu.com/view/d4d2e1e3122de2bd960590c69ec3d5bbfd0adaa6.html"
+url = "https://wenku.baidu.com/view/ea815d9c1fd9ad51f01dc281e53a580217fc50e0.html"
 
 class DownloadImg():
     def __init__(self):
