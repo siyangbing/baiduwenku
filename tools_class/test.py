@@ -15,6 +15,8 @@ from pptx.util import Inches
 from tools_class.xpath_string import click_xpath_dict, file_attribute_xpath, content_dict, next_page_cancel_dict
 
 url = "https://wenku.baidu.com/view/369c753aa65177232f60ddccda38376bae1fe05b.html?fr=search-4-X-income1&fixfr=zT1apvO%2BF0K%2B1ichceLdSw%3D%3D"
+
+
 # url = "https://wenku.baidu.com/view/3de365cc6aec0975f46527d3240c844769eaa0aa.html?fr=search"
 
 
@@ -73,7 +75,6 @@ class ControlChrome():
             height = new_height
             new_height = self.brower.execute_script(js)
 
-
         # self.brower.execute_script("window.scrollTo(0,document.body.scrollHeight)")
 
     def click_ele(self, click_xpath):
@@ -130,9 +131,9 @@ class FilterXpath():
             if b != []:
                 break
 
-    def get_content(self,sel):
+    def get_content(self, sel):
         content_xpath = self.content_dict["doc"][0]
-        file_content= sel.xpath(content_xpath).extract()
+        file_content = sel.xpath(content_xpath).extract()
         return file_content
 
 
@@ -141,19 +142,22 @@ class CreateFile():
         self.filetype = filetype
         self.file_title = file_title
         self.file_content = file_content
+        if self.filetype == 'word':
+            self.create_doc(self.file_title, self.file_content)
 
-    def create_doc(self,title,contents):
+    def create_doc(self, title, contents):
         document = docx.Document()  # 创建word文档
         document.add_heading(title, 0)  # 添加标题
         content_all = ""
         for content_one in contents:
-            if content_one==" ":
-                content_all += ('\n'+content_one)
+            if content_one == " ":
+                content_all += ('\n' + content_one)
             else:
                 content_all += content_one
             # content_txt_one = '*'.join(content_one.xpath(xpath_content_one).extract())
         document.add_paragraph(content_all)
         document.save(os.path.join("../doc/", '{}.docx'.format(title)))
+
 
 
 if __name__ == "__main__":
@@ -175,5 +179,6 @@ if __name__ == "__main__":
     file_content = fx.get_content(sel)
 
     cf = CreateFile(file_type_str, filename_str, file_content)
-    cf.create_doc(filename_str,file_content)
+    # cf.create_doc(filename_str,file_content)
+    # cf.create_file()
     print("")
